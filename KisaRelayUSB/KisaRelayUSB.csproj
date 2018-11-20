@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1B6A1E6B-355E-4683-8B9E-C261BD26AAFF}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>KisaRelayUSB</RootNamespace>
+    <AssemblyName>KisaRelayUSB</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EngineIoClientDotNet, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EngineIoClientDotNet.1.0.7\lib\net45\EngineIoClientDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SocketIoClientDotNet, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SocketIoClientDotNet.1.0.7.1\lib\net45\SocketIoClientDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine, Version=0.10.0.0, Culture=neutral, PublicKeyToken=ee9af13f57f00acc, processorArchitecture=MSIL">
+      <HintPath>..\packages\SuperSocket.ClientEngine.Core.0.10.0\lib\net45\SuperSocket.ClientEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.4.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Specialized, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Specialized.4.3.0\lib\net46\System.Collections.Specialized.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.NameResolution, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.NameResolution.4.3.0\lib\net46\System.Net.NameResolution.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Security, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Security.4.3.0\lib\net46\System.Net.Security.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WebSocket4Net, Version=0.15.2.11, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebSocket4Net.0.15.2\lib\net45\WebSocket4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="yocto_api\yocto_api.cs" />
+    <Compile Include="yocto_api\yocto_relay.cs" />
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="dlls\EngineIoClientDotNet.dll" />
+    <EmbeddedResource Include="dlls\Microsoft.Win32.Primitives.dll" />
+    <EmbeddedResource Include="dlls\netstandard.dll" />
+    <EmbeddedResource Include="dlls\Newtonsoft.Json.dll" />
+    <EmbeddedResource Include="dlls\SocketIoClientDotNet.dll" />
+    <EmbeddedResource Include="dlls\SuperSocket.ClientEngine.dll" />
+    <EmbeddedResource Include="dlls\System.AppContext.dll" />
+    <EmbeddedResource Include="dlls\System.Collections.Concurrent.dll" />
+    <EmbeddedResource Include="dlls\System.Collections.dll" />
+    <EmbeddedResource Include="dlls\System.Collections.Immutable.dll" />
+    <EmbeddedResource Include="dlls\System.Collections.NonGeneric.dll" />
+    <EmbeddedResource Include="dlls\System.Collections.Specialized.dll" />
+    <EmbeddedResource Include="dlls\System.ComponentModel.dll" />
+    <EmbeddedResource Include="dlls\System.ComponentModel.EventBasedAsync.dll" />
+    <EmbeddedResource Include="dlls\System.ComponentModel.Primitives.dll" />
+    <EmbeddedResource Include="dlls\System.ComponentModel.TypeConverter.dll" />
+    <EmbeddedResource Include="dlls\System.Console.dll" />
+    <EmbeddedResource Include="dlls\System.Data.Common.dll" />
+    <EmbeddedResource Include="dlls\System.Diagnostics.Contracts.dll" />
+    <EmbeddedResource Include="dlls\System.Diagnostics.Debug.dll" />
+    <EmbeddedResource Include="dlls\System.Diagnostics.FileVersionInfo.dll" />
+    <EmbeddedResource Include="dlls\System.Diagnostics.Process.dll" />
+    <EmbeddedResource Include="dlls\System.Diagnostics.StackTrace.dll" />
+    <EmbeddedResource Include="dlls\System.Diagnostics.TextWriterTraceListener.dll" />
+    <EmbeddedResource Include="dlls\System.Diagnostics.Tools.dll" />
+    <EmbeddedResource Include="dlls\System.Diagnostics.TraceSource.dll" />
+    <EmbeddedResource Include="dlls\System.Diagnostics.Tracing.dll" />
+    <EmbeddedResource Include="dlls\System.Drawing.Primitives.dll" />
+    <EmbeddedResource Include="dlls\System.Dynamic.Runtime.dll" />
+    <EmbeddedResource Include="dlls\System.Globalization.Calendars.dll" />
+    <EmbeddedResource Include="dlls\System.Globalization.dll" />
+    <EmbeddedResource Include="dlls\System.Globalization.Extensions.dll" />
+    <EmbeddedResource Include="dlls\System.IO.Compression.dll" />
+    <EmbeddedResource Include="dlls\System.IO.Compression.ZipFile.dll" />
+    <EmbeddedResource Include="dlls\System.IO.dll" />
+    <EmbeddedResource Include="dlls\System.IO.FileSystem.dll" />
+    <EmbeddedResource Include="dlls\System.IO.FileSystem.DriveInfo.dll" />
+    <EmbeddedResource Include="dlls\System.IO.FileSystem.Primitives.dll" />
+    <EmbeddedResource Include="dlls\System.IO.FileSystem.Watcher.dll" />
+    <EmbeddedResource Include="dlls\System.IO.IsolatedStorage.dll" />
+    <EmbeddedResource Include="dlls\System.IO.MemoryMappedFiles.dll" />
+    <EmbeddedResource Include="dlls\System.IO.Pipes.dll" />
+    <EmbeddedResource Include="dlls\System.IO.UnmanagedMemoryStream.dll" />
+    <EmbeddedResource Include="dlls\System.Linq.dll" />
+    <EmbeddedResource Include="dlls\System.Linq.Expressions.dll" />
+    <EmbeddedResource Include="dlls\System.Linq.Parallel.dll" />
+    <EmbeddedResource Include="dlls\System.Linq.Queryable.dll" />
+    <EmbeddedResource Include="dlls\System.Net.Http.dll" />
+    <EmbeddedResource Include="dlls\System.Net.NameResolution.dll" />
+    <EmbeddedResource Include="dlls\System.Net.NetworkInformation.dll" />
+    <EmbeddedResource Include="dlls\System.Net.Ping.dll" />
+    <EmbeddedResource Include="dlls\System.Net.Primitives.dll" />
+    <EmbeddedResource Include="dlls\System.Net.Requests.dll" />
+    <EmbeddedResource Include="dlls\System.Net.Security.dll" />
+    <EmbeddedResource Include="dlls\System.Net.Sockets.dll" />
+    <EmbeddedResource Include="dlls\System.Net.WebHeaderCollection.dll" />
+    <EmbeddedResource Include="dlls\System.Net.WebSockets.Client.dll" />
+    <EmbeddedResource Include="dlls\System.Net.WebSockets.dll" />
+    <EmbeddedResource Include="dlls\System.ObjectModel.dll" />
+    <EmbeddedResource Include="dlls\System.Reflection.dll" />
+    <EmbeddedResource Include="dlls\System.Reflection.Extensions.dll" />
+    <EmbeddedResource Include="dlls\System.Reflection.Primitives.dll" />
+    <EmbeddedResource Include="dlls\System.Resources.Reader.dll" />
+    <EmbeddedResource Include="dlls\System.Resources.ResourceManager.dll" />
+    <EmbeddedResource Include="dlls\System.Resources.Writer.dll" />
+    <EmbeddedResource Include="dlls\System.Runtime.CompilerServices.VisualC.dll" />
+    <EmbeddedResource Include="dlls\System.Runtime.dll" />
+    <EmbeddedResource Include="dlls\System.Runtime.Extensions.dll" />
+    <EmbeddedResource Include="dlls\System.Runtime.Handles.dll" />
+    <EmbeddedResource Include="dlls\System.Runtime.InteropServices.dll" />
+    <EmbeddedResource Include="dlls\System.Runtime.InteropServices.RuntimeInformation.dll" />
+    <EmbeddedResource Include="dlls\System.Runtime.Numerics.dll" />
+    <EmbeddedResource Include="dlls\System.Runtime.Serialization.Formatters.dll" />
+    <EmbeddedResource Include="dlls\System.Runtime.Serialization.Json.dll" />
+    <EmbeddedResource Include="dlls\System.Runtime.Serialization.Primitives.dll" />
+    <EmbeddedResource Include="dlls\System.Runtime.Serialization.Xml.dll" />
+    <EmbeddedResource Include="dlls\System.Security.Claims.dll" />
+    <EmbeddedResource Include="dlls\System.Security.Cryptography.Algorithms.dll" />
+    <EmbeddedResource Include="dlls\System.Security.Cryptography.Csp.dll" />
+    <EmbeddedResource Include="dlls\System.Security.Cryptography.Encoding.dll" />
+    <EmbeddedResource Include="dlls\System.Security.Cryptography.Primitives.dll" />
+    <EmbeddedResource Include="dlls\System.Security.Cryptography.X509Certificates.dll" />
+    <EmbeddedResource Include="dlls\System.Security.Principal.dll" />
+    <EmbeddedResource Include="dlls\System.Security.SecureString.dll" />
+    <EmbeddedResource Include="dlls\System.Text.Encoding.dll" />
+    <EmbeddedResource Include="dlls\System.Text.Encoding.Extensions.dll" />
+    <EmbeddedResource Include="dlls\System.Text.RegularExpressions.dll" />
+    <EmbeddedResource Include="dlls\System.Threading.dll" />
+    <EmbeddedResource Include="dlls\System.Threading.Overlapped.dll" />
+    <EmbeddedResource Include="dlls\System.Threading.Tasks.dll" />
+    <EmbeddedResource Include="dlls\System.Threading.Tasks.Parallel.dll" />
+    <EmbeddedResource Include="dlls\System.Threading.Thread.dll" />
+    <EmbeddedResource Include="dlls\System.Threading.ThreadPool.dll" />
+    <EmbeddedResource Include="dlls\System.Threading.Timer.dll" />
+    <EmbeddedResource Include="dlls\System.ValueTuple.dll" />
+    <EmbeddedResource Include="dlls\System.Xml.ReaderWriter.dll" />
+    <EmbeddedResource Include="dlls\System.Xml.XDocument.dll" />
+    <EmbeddedResource Include="dlls\System.Xml.XmlDocument.dll" />
+    <EmbeddedResource Include="dlls\System.Xml.XmlSerializer.dll" />
+    <EmbeddedResource Include="dlls\System.Xml.XPath.dll" />
+    <EmbeddedResource Include="dlls\System.Xml.XPath.XDocument.dll" />
+    <EmbeddedResource Include="dlls\WebSocket4Net.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="yapi.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
