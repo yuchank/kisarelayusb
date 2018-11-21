@@ -17,6 +17,8 @@ using Quobject.SocketIoClientDotNet.Client;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 
+using System.Windows.Threading;
+
 namespace KisaRelayUSB
 {
   /// <summary>
@@ -27,6 +29,8 @@ namespace KisaRelayUSB
     private Socket socket;
     private YRelay relay;
 
+    //private DispatcherTimer timer;
+
     public MainWindow()
     {
       InitializeComponent();
@@ -36,16 +40,31 @@ namespace KisaRelayUSB
     {
       this.socket = IO.Socket("http://localhost:2000");
 
+      //timer = new DispatcherTimer();
+      //timer.Interval = TimeSpan.FromMilliseconds(1);  // 1 sec
+      //timer.Tick += new EventHandler(timer_Tick);
+      //timer.Start();
+
       if (Window.GetWindow(this) != null)
       {
         WindowInteropHelper helper = new WindowInteropHelper(Window.GetWindow(this));
         HwndSource.FromHwnd(helper.Handle).AddHook(new HwndSourceHook(this.WndProc));
       }
 
+      this.socket.On(Socket.EVENT_CONNECT_ERROR, () => {
+        Console.WriteLine("EVT_CON_ERR");
+      });
+
+      this.socket.On(Socket.EVENT_CONNECT_TIMEOUT, () => {
+        Console.WriteLine("EVT_CON_TOUT");
+      });
+
       this.socket.On(Socket.EVENT_CONNECT, () => {
+        Console.WriteLine("EVT_CON");
       });
 
       this.socket.On(Socket.EVENT_DISCONNECT, () => {
+        Console.WriteLine("EVT_DISCON");
       });
 
       string errmsg = "";
@@ -89,7 +108,14 @@ namespace KisaRelayUSB
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
       this.socket.Disconnect();
+      this.socket.Close();
+      //this.timer.Stop();
     }
+
+    //private void timer_Tick(object sender, EventArgs e)
+    //{
+    //  this.socket.Emit("ping", "ping");
+    //}
 
     IntPtr WndProc(IntPtr hWnd, int nMsg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
