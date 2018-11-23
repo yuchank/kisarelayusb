@@ -27,7 +27,8 @@ namespace KisaRelayUSB
   public partial class MainWindow : Window
   {
     private Socket socket;
-    private YRelay relay;
+    private YRelay relay1;
+    private YRelay relay2;
 
     //private DispatcherTimer timer;
 
@@ -75,33 +76,42 @@ namespace KisaRelayUSB
         Environment.Exit(0);
       }
 
-      relay = YRelay.FindRelay("RELAYLO1-CD6A7.relay1");
+      relay1 = YRelay.FindRelay("RELAYLO1-CD6A7.relay1");
+      relay2 = YRelay.FindRelay("RELAYLO1-CD6A7.relay2");
 
       this.socket.On("relay-on", () =>
       {
-        if (relay.isOnline())
+        if (relay1.isOnline() && relay2.isOnline())
         {
-          relay.set_state(YRelay.STATE_B);  // active
+          relay1.set_state(YRelay.STATE_B);  // active
+          relay2.set_state(YRelay.STATE_B);  // active
         }
       });
 
       this.socket.On("realy-off", () =>
       {
-        if (relay.isOnline())
+        if (relay1.isOnline() && relay2.isOnline())
         {
-          relay.set_state(YRelay.STATE_A);  // idle
+          relay1.set_state(YRelay.STATE_A);  // idle
+          relay2.set_state(YRelay.STATE_A);  // idle
         }
       });
     }
 
     private void OnBtnClick(object sender, RoutedEventArgs e)
     {
-      if (relay.isOnline())
+      if (relay1.isOnline() && relay2.isOnline())
       {
-        if (relay.get_state() == YRelay.STATE_B)       // active
-          relay.set_state(YRelay.STATE_A);
-        else if (relay.get_state() == YRelay.STATE_A)  // idle
-          relay.set_state(YRelay.STATE_B);
+        if (relay1.get_state() == YRelay.STATE_B && relay2.get_state() == YRelay.STATE_B)       // active
+        {
+          relay1.set_state(YRelay.STATE_A);
+          relay2.set_state(YRelay.STATE_A);
+        }
+        else if (relay1.get_state() == YRelay.STATE_A && relay2.get_state() == YRelay.STATE_A)  // idle
+        {
+          relay1.set_state(YRelay.STATE_B);
+          relay2.set_state(YRelay.STATE_B);
+        }
       }
     }
 
