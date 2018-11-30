@@ -19,6 +19,8 @@ using System.Windows.Interop;
 
 using System.Windows.Threading;
 
+using System.IO;
+
 namespace KisaRelayUSB
 {
   /// <summary>
@@ -30,7 +32,7 @@ namespace KisaRelayUSB
     private YRelay relay1;
     private YRelay relay2;
 
-    //private DispatcherTimer timer;
+    private DispatcherTimer timer;
 
     public MainWindow()
     {
@@ -39,12 +41,11 @@ namespace KisaRelayUSB
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
-      this.socket = IO.Socket("http://localhost:2000");
+      this.socket = IO.Socket("http://192.168.1.2:2000");
 
-      //timer = new DispatcherTimer();
-      //timer.Interval = TimeSpan.FromMilliseconds(1);  // 1 sec
-      //timer.Tick += new EventHandler(timer_Tick);
-      //timer.Start();
+      timer = new DispatcherTimer();
+      timer.Interval = TimeSpan.FromMilliseconds(800);  // 2 sec
+      timer.Tick += new EventHandler(timer_Tick);
 
       if (Window.GetWindow(this) != null)
       {
@@ -68,6 +69,67 @@ namespace KisaRelayUSB
         Console.WriteLine("EVT_DISCON");
       });
 
+      this.socket.On("attack-app-cs", () =>
+      {
+        timer.Start();
+      });
+
+      this.socket.On("attack-obd-cs", () =>
+      {
+        timer.Start();
+      });
+
+      this.socket.On("attack-auto-cs", () =>
+      {
+        timer.Start();
+      });
+
+      this.socket.On("attack-usb-cs", () =>
+      {
+        timer.Start();
+      });
+
+      this.socket.On("attack-rans-cs", () =>
+      {
+        timer.Start();
+      });
+
+      this.socket.On("check-usb", (v) =>
+      {
+        String command = v.ToString();
+        Boolean found = false;
+        foreach (DriveInfo drive in DriveInfo.GetDrives())
+        {
+          if (drive.DriveType == DriveType.Removable)
+          {
+            Console.WriteLine(string.Format("({0}) {1}", drive.Name.Replace("\\", ""), drive.VolumeLabel));
+            found = true;
+          }
+        }
+
+        if (found == true)
+        {
+          if (command.Equals("check-usb-usb"))
+          {
+            this.socket.Emit("usb-status", "usb-on");
+          }
+          else if (command.Equals("check-rans-usb"))
+          {
+            this.socket.Emit("usb-status", "rans-on");
+          }
+        }
+        else
+        {
+          this.socket.Emit("usb-status", "off");
+        }
+      });
+
+      this.socket.On("reset", () =>
+      {
+        timer.Stop();
+        ResetRelay();
+      });
+
       string errmsg = "";
 
       if (YAPI.RegisterHub("usb", ref errmsg) != YAPI.SUCCESS)
@@ -78,40 +140,18 @@ namespace KisaRelayUSB
 
       relay1 = YRelay.FindRelay("RELAYLO1-CD6A7.relay1");
       relay2 = YRelay.FindRelay("RELAYLO1-CD6A7.relay2");
-
-      this.socket.On("relay-on", () =>
-      {
-        if (relay1.isOnline() && relay2.isOnline())
-        {
-          relay1.set_state(YRelay.STATE_B);  // active
-          relay2.set_state(YRelay.STATE_B);  // active
-        }
-      });
-
-      this.socket.On("realy-off", () =>
-      {
-        if (relay1.isOnline() && relay2.isOnline())
-        {
-          relay1.set_state(YRelay.STATE_A);  // idle
-          relay2.set_state(YRelay.STATE_A);  // idle
-        }
-      });
     }
 
-    private void OnBtnClick(object sender, RoutedEventArgs e)
+    private void ResetRelay()
     {
-      if (relay1.isOnline() && relay2.isOnline())
+      if (relay1.isOnline())
       {
-        if (relay1.get_state() == YRelay.STATE_B && relay2.get_state() == YRelay.STATE_B)       // active
-        {
-          relay1.set_state(YRelay.STATE_A);
-          relay2.set_state(YRelay.STATE_A);
-        }
-        else if (relay1.get_state() == YRelay.STATE_A && relay2.get_state() == YRelay.STATE_A)  // idle
-        {
-          relay1.set_state(YRelay.STATE_B);
-          relay2.set_state(YRelay.STATE_B);
-        }
+        relay1.set_state(YRelay.STATE_A);  // idle
+      }
+
+      if (relay2.isOnline())
+      {
+        relay2.set_state(YRelay.STATE_A);  // idle
       }
     }
 
@@ -119,13 +159,36 @@ namespace KisaRelayUSB
     {
       this.socket.Disconnect();
       this.socket.Close();
-      //this.timer.Stop();
+      this.timer.Stop();
+      ResetRelay();
     }
 
-    //private void timer_Tick(object sender, EventArgs e)
-    //{
-    //  this.socket.Emit("ping", "ping");
-    //}
+    private void timer_Tick(object sender, EventArgs e)
+    {
+      if (relay1.isOnline())
+      {
+        if (relay1.get_state() == YRelay.STATE_B)       // active
+        {
+          relay1.set_state(YRelay.STATE_A);
+        }
+        else if (relay1.get_state() == YRelay.STATE_A)  // idle
+        {
+          relay1.set_state(YRelay.STATE_B);
+        }
+      }
+
+      if (relay2.isOnline())
+      {
+        if (relay2.get_state() == YRelay.STATE_B)       // active
+        {
+          relay2.set_state(YRelay.STATE_A);
+        }
+        else if (relay2.get_state() == YRelay.STATE_A)  // idle
+        {
+          relay2.set_state(YRelay.STATE_B);
+        }
+      }
+    }
 
     IntPtr WndProc(IntPtr hWnd, int nMsg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
@@ -138,10 +201,8 @@ namespace KisaRelayUSB
       if ((nMsg == WM_DEVICECHANGE) && (wParam.ToInt32() == DBT_DEVICEARRIVAL))
       {
         int devType = Marshal.ReadInt32(lParam, 4);
-
         if (devType == DBT_DEVTUP_VOLUME)
         {
-          this.socket.Emit("usb-in", "usb-in");
         }
       }
 
@@ -154,6 +215,41 @@ namespace KisaRelayUSB
         }
       }
       return IntPtr.Zero;
+    }
+
+    private void OnAppClick(object sender, RoutedEventArgs e)
+    {
+      this.socket.Emit("attack-app", "attack-app");
+    }
+
+    private void OnObdClick(object sender, RoutedEventArgs e)
+    {
+      this.socket.Emit("attack-obd", "attack-obd");
+    }
+
+    private void OnAutoClick(object sender, RoutedEventArgs e)
+    {
+      this.socket.Emit("attack-auto", "attack-auto");
+    }
+
+    private void OnUsbClick(object sender, RoutedEventArgs e)
+    {
+      this.socket.Emit("attack-usb", "attack-usb");
+    }
+
+    private void OnRansClick(object sender, RoutedEventArgs e)
+    {
+      this.socket.Emit("attack-rans", "attack-rans");
+    }
+
+    private void OnAutosetClick(object sender, RoutedEventArgs e)
+    {
+      this.socket.Emit("auto-on", "auto-on");
+    }
+
+    private void OnRstClick(object sender, RoutedEventArgs e)
+    {
+      this.socket.Emit("reset", "reset");
     }
   }
 }

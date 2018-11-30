@@ -7,6 +7,12 @@
         mc:Ignorable="d"
         Title="KISA RELAY USB HANDLER" Height="300" Width="350">
     <Grid Loaded="OnLoaded" Unloaded="OnUnloaded">
-    <Button Content="Button" HorizontalAlignment="Left" Margin="270,45,-3,0" VerticalAlignment="Top" Width="75" Click="OnBtnClick"/>
-  </Grid>
+        <Button Content="App" HorizontalAlignment="Left" Margin="113,72,0,0" VerticalAlignment="Top" Width="75" Click="OnAppClick"/>
+        <Button Content="Reset" HorizontalAlignment="Left" Margin="207,97,0,0" VerticalAlignment="Top" Width="75" Click="OnRstClick"/>
+        <Button Content="USB" HorizontalAlignment="Left" Margin="113,147,0,0" VerticalAlignment="Top" Width="75" Click="OnUsbClick"/>
+        <Button Content="OBD" HorizontalAlignment="Left" Margin="113,97,0,0" VerticalAlignment="Top" Width="75" Click="OnObdClick"/>
+        <Button Content="Auto" HorizontalAlignment="Left" Margin="113,122,0,0" VerticalAlignment="Top" Width="75" Click="OnAutoClick"/>
+        <Button Content="Rans" HorizontalAlignment="Left" Margin="113,171,0,0" VerticalAlignment="Top" Width="75" Click="OnRansClick"/>
+        <Button Content="AutoSet" HorizontalAlignment="Left" Margin="207,72,0,0" VerticalAlignment="Top" Width="75" Click="OnAutosetClick"/>
+    </Grid>
 </Window>
