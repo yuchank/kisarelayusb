@@ -6,13 +6,18 @@
         xmlns:local="clr-namespace:KisaRelayUSB"
         mc:Ignorable="d"
         Title="KISA RELAY USB HANDLER" Height="300" Width="350">
-    <Grid Loaded="OnLoaded" Unloaded="OnUnloaded">
-        <Button Content="App" HorizontalAlignment="Left" Margin="113,72,0,0" VerticalAlignment="Top" Width="75" Click="OnAppClick"/>
-        <Button Content="Reset" HorizontalAlignment="Left" Margin="207,97,0,0" VerticalAlignment="Top" Width="75" Click="OnRstClick"/>
-        <Button Content="USB" HorizontalAlignment="Left" Margin="113,147,0,0" VerticalAlignment="Top" Width="75" Click="OnUsbClick"/>
-        <Button Content="OBD" HorizontalAlignment="Left" Margin="113,97,0,0" VerticalAlignment="Top" Width="75" Click="OnObdClick"/>
-        <Button Content="Auto" HorizontalAlignment="Left" Margin="113,122,0,0" VerticalAlignment="Top" Width="75" Click="OnAutoClick"/>
-        <Button Content="Rans" HorizontalAlignment="Left" Margin="113,171,0,0" VerticalAlignment="Top" Width="75" Click="OnRansClick"/>
-        <Button Content="AutoSet" HorizontalAlignment="Left" Margin="207,72,0,0" VerticalAlignment="Top" Width="75" Click="OnAutosetClick"/>
-    </Grid>
+  <Grid Loaded="OnLoaded" Unloaded="OnUnloaded">
+    <Button Content="App" HorizontalAlignment="Left" Margin="113,72,0,0" VerticalAlignment="Top" Width="75" Click="OnAppClick"/>
+    <Button Content="Reset" HorizontalAlignment="Left" Margin="207,97,0,0" VerticalAlignment="Top" Width="75" Click="OnRstClick"/>
+    <Button Content="USB" HorizontalAlignment="Left" Margin="113,147,0,0" VerticalAlignment="Top" Width="75" Click="OnUsbClick"/>
+    <Button Content="OBD" HorizontalAlignment="Left" Margin="113,97,0,0" VerticalAlignment="Top" Width="75" Click="OnObdClick"/>
+    <Button Content="Auto" HorizontalAlignment="Left" Margin="113,122,0,0" VerticalAlignment="Top" Width="75" Click="OnAutoClick"/>
+    <Button Content="Rans" HorizontalAlignment="Left" Margin="113,171,0,0" VerticalAlignment="Top" Width="75" Click="OnRansClick"/>
+    <Button Content="AutoSet" HorizontalAlignment="Left" Margin="207,72,0,0" VerticalAlignment="Top" Width="75" Click="OnAutosetClick"/>
+    <Button Content="P.R.1" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" Width="75" Click="OnPR1Click"/>
+    <Button Content="P.R.2" HorizontalAlignment="Left" Margin="10,97,0,0" VerticalAlignment="Top" Width="75" Click="OnPR2Click"/>
+    <Button Content="P.R.3" HorizontalAlignment="Left" Margin="10,122,0,0" VerticalAlignment="Top" Width="75" Click="OnPR3Click"/>
+    <Button Content="P.R.4" HorizontalAlignment="Left" Margin="10,147,0,0" VerticalAlignment="Top" Width="75" Click="OnPR4Click"/>
+    <Button Content="P.R.C" HorizontalAlignment="Left" Margin="207,164,0,0" VerticalAlignment="Top" Width="75" Click="OnPRCClick"/>
+  </Grid>
 </Window>

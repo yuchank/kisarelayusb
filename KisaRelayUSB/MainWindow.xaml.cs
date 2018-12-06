@@ -18,8 +18,9 @@ using System.Runtime.InteropServices;
 using System.Windows.Interop;
 
 using System.Windows.Threading;
-
 using System.IO;
+
+using Phidget22;
 
 namespace KisaRelayUSB
 {
@@ -34,6 +35,11 @@ namespace KisaRelayUSB
 
     private DispatcherTimer timer;
 
+    DigitalOutput digout1 = null;
+    DigitalOutput digout2 = null;
+    DigitalOutput digout3 = null;
+    DigitalOutput digout4 = null;
+
     public MainWindow()
     {
       InitializeComponent();
@@ -41,7 +47,7 @@ namespace KisaRelayUSB
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
-      this.socket = IO.Socket("http://192.168.1.2:2000");
+      this.socket = IO.Socket("http://192.168.0.182:2000");
 
       timer = new DispatcherTimer();
       timer.Interval = TimeSpan.FromMilliseconds(800);  // 2 sec
@@ -53,19 +59,23 @@ namespace KisaRelayUSB
         HwndSource.FromHwnd(helper.Handle).AddHook(new HwndSourceHook(this.WndProc));
       }
 
-      this.socket.On(Socket.EVENT_CONNECT_ERROR, () => {
+      this.socket.On(Socket.EVENT_CONNECT_ERROR, () =>
+      {
         Console.WriteLine("EVT_CON_ERR");
       });
 
-      this.socket.On(Socket.EVENT_CONNECT_TIMEOUT, () => {
+      this.socket.On(Socket.EVENT_CONNECT_TIMEOUT, () =>
+      {
         Console.WriteLine("EVT_CON_TOUT");
       });
 
-      this.socket.On(Socket.EVENT_CONNECT, () => {
+      this.socket.On(Socket.EVENT_CONNECT, () =>
+      {
         Console.WriteLine("EVT_CON");
       });
 
-      this.socket.On(Socket.EVENT_DISCONNECT, () => {
+      this.socket.On(Socket.EVENT_DISCONNECT, () =>
+      {
         Console.WriteLine("EVT_DISCON");
       });
 
@@ -130,6 +140,30 @@ namespace KisaRelayUSB
         ResetRelay();
       });
 
+      this.socket.On("red", () =>
+      {
+        PR1(true);
+        PR2(false);
+        PR3(false);
+        print_PR();
+      });
+
+      this.socket.On("yellow", () =>
+      {
+        PR1(false);
+        PR2(true);
+        PR3(false);
+        print_PR();
+      });
+
+      this.socket.On("green", () =>
+      {
+        PR1(false);
+        PR2(false);
+        PR3(true);
+        print_PR();
+      });
+
       string errmsg = "";
 
       if (YAPI.RegisterHub("usb", ref errmsg) != YAPI.SUCCESS)
@@ -140,6 +174,34 @@ namespace KisaRelayUSB
 
       relay1 = YRelay.FindRelay("RELAYLO1-CD6A7.relay1");
       relay2 = YRelay.FindRelay("RELAYLO1-CD6A7.relay2");
+
+      digout1 = new DigitalOutput();
+      digout2 = new DigitalOutput();
+      digout3 = new DigitalOutput();
+      digout4 = new DigitalOutput();
+
+      digout1.Channel = 0;
+      digout2.Channel = 1;
+      digout3.Channel = 2;
+      digout4.Channel = 3;
+
+      try
+      {
+        digout1.IsLocal = true;
+        digout2.IsLocal = true;
+        digout3.IsLocal = true;
+        digout4.IsLocal = true;
+
+        digout1.Open();
+        digout2.Open();
+        digout3.Open();
+        digout4.Open();
+
+      }
+      catch (PhidgetException ex)
+      {
+        Console.WriteLine(ex);
+      }
     }
 
     private void ResetRelay()
@@ -161,6 +223,11 @@ namespace KisaRelayUSB
       this.socket.Close();
       this.timer.Stop();
       ResetRelay();
+
+      digout1.Close();
+      digout2.Close();
+      digout3.Close();
+      digout4.Close();
     }
 
     private void timer_Tick(object sender, EventArgs e)
@@ -250,6 +317,147 @@ namespace KisaRelayUSB
     private void OnRstClick(object sender, RoutedEventArgs e)
     {
       this.socket.Emit("reset", "reset");
+    }
+
+    private void PR1(bool set)
+    {
+      digout1.State = set;
+    }
+
+    private void PR2(bool set)
+    {
+      digout2.State = set;
+    }
+
+    private void PR3(bool set)
+    {
+      digout3.State = set;
+    }
+
+    private void PR4(bool set)
+    {
+      digout4.State = set;
+    }
+
+    private void PR1()
+    {
+      try
+      {
+        if (digout1.State == true)
+        {
+          PR1(false);
+        }
+        else
+        {
+          PR1(true);
+        }
+      }
+      catch (PhidgetException ex)
+      {
+        Console.WriteLine(ex);
+      }
+    }
+
+    private void PR2()
+    {
+      try
+      {
+        if (digout2.State == true)
+        {
+          PR2(false);
+        }
+        else
+        {
+          PR2(true);
+        }
+      }
+      catch (PhidgetException ex)
+      {
+        Console.WriteLine(ex);
+      }
+    }
+
+    private void PR3()
+    {
+      try
+      {
+        if (digout3.State == true)
+        {
+          PR3(false);
+        }
+        else
+        {
+          PR3(true);
+        }
+      }
+      catch (PhidgetException ex)
+      {
+        Console.WriteLine(ex);
+      }
+    }
+
+    private void PR4()
+    {
+      try
+      {
+        if (digout4.State == true)
+        {
+          PR4(false);
+        }
+        else
+        {
+          PR4(true);
+        }
+      }
+      catch (PhidgetException ex)
+      {
+        Console.WriteLine(ex);
+      }
+    }
+
+    private void print_PR()
+    {
+      if (digout1.State == true)
+      {
+        Console.WriteLine("RED");
+      }
+      if (digout2.State == true)
+      {
+        Console.WriteLine("YELLOW");
+      }
+      if (digout3.State == true)
+      {
+        Console.WriteLine("GREEN");
+      }
+    }
+
+    private void OnPR1Click(object sender, RoutedEventArgs e)
+    {
+      PR1();
+      print_PR();
+    }
+
+    private void OnPR2Click(object sender, RoutedEventArgs e)
+    {
+      PR2();
+      print_PR();
+    }
+
+    private void OnPR3Click(object sender, RoutedEventArgs e)
+    {
+      PR3();
+      print_PR();
+    }
+
+    private void OnPR4Click(object sender, RoutedEventArgs e)
+    {
+      PR4();
+      print_PR();
+    }
+
+    private void OnPRCClick(object sender, RoutedEventArgs e)
+    {
+      print_PR();
     }
   }
 }
